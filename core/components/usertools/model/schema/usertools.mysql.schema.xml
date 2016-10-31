@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="usertools" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" version="1.1">
+	<object class="utUser" extends="modUser">
+		<field key="class_key" dbtype="varchar" precision="100" phptype="string" null="false" default="utUser" />
+
+		<composite alias="Data" class="utUserData" local="id" foreign="id" cardinality="one" owner="local" />
+
+		<validation>
+			<rule field="email" name="email" type="xPDOValidationRule" rule="validation.utuser.checkEmail" />
+			<rule field="firstname" name="firstname" type="xPDOValidationRule" rule="validation.utuser.checkName" />
+			<rule field="middlename" name="middlename" type="xPDOValidationRule" rule="validation.utuser.checkName" />
+			<rule field="lastname" name="lastname" type="xPDOValidationRule" rule="validation.utuser.checkName" />
+			<rule field="phone" name="phone" type="xPDOValidationRule" rule="validation.utuser.checkPhone" />
+			<rule field="old_password" name="old_password" type="xPDOValidationRule" rule="validation.utuser.checkOldPassword" />
+			<rule field="password" name="password" type="xPDOValidationRule" rule="validation.utuser.checkPassword" />
+			<rule field="password2" name="password2" type="xPDOValidationRule" rule="validation.utuser.checkPassword2" />
+			<rule field="type" name="type" type="xPDOValidationRule" rule="validation.utuser.checkType" />
+			<rule field="company" name="company" type="xPDOValidationRule" rule="validation.utuser.checkCompany" />
+			<rule field="inn" name="inn" type="xPDOValidationRule" rule="validation.utuser.checkInn" />
+			<rule field="accept_rules" name="accept_rules" type="xPDOValidationRule" rule="validation.utuser.checkAcceptRules" />
+		</validation>
+	</object>
+
+	<object class="utUserData" table="ut_users" extends="xPDOObject">
+		<field key="id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+		<field key="company" dbtype="varchar" precision="255" phptype="string" null="true" />
+		<field key="inn" dbtype="varchar" precision="10" phptype="string" null="true" />
+		<field key="kpp" dbtype="varchar" precision="10" phptype="string" null="true" />
+		<field key="firstname" dbtype="varchar" precision="100" phptype="string" null="true" />
+		<field key="middlename" dbtype="varchar" precision="100" phptype="string" null="true" />
+		<field key="lastname" dbtype="varchar" precision="100" phptype="string" null="true" />
+		<field key="position" dbtype="varchar" precision="255" phptype="string" null="true" />
+		<field key="type" dbtype="enum" precision="'ul','fl'" phptype="string" null="false" default="ul" />
+		<field key="director_fullname" dbtype="varchar" precision="255" phptype="string" null="true" />
+		<field key="accept_rules" dbtype="tinyint" precision="1" phptype="integer" null="false" default="0" />
+		<field key="discount" dbtype="smallint" precision="5" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<field key="max_discount" dbtype="smallint" precision="5" attributes="unsigned" phptype="integer" null="true" />
+		<field key="activation_code" dbtype="varchar" precision="255" phptype="string" null="true" />
+		<field key="registerdate" dbtype="timestamp" phptype="timestamp" null="false" default="CURRENT_TIMESTAMP" index="index" />
+
+		<aggregate alias="utUser" class="utUser" local="id" foreign="id" cardinality="one" owner="foreign" />
+
+		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE" >
+			<column key="id" length="" collation="A" null="false" />
+		</index>
+		<index alias="registerdate" name="registerdate" primary="false" unique="false" type="BTREE" >
+			<column key="registerdate" length="" collation="A" null="false" />
+		</index>
+	</object>
+</model>
